@@ -1,0 +1,27 @@
+
+.emails-input {
+  background: #ffffff;
+  border: 1px solid #c3c2cf;
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 3px;
+
+  &__tag {
+    margin: 3px;
+    background: rgba(102, 153, 255, 0.2);
+    border-radius: 100px;
+    padding: 6px;
+
+    &--invalid {
+      background: transparent;
+      border-bottom: dotted 1px red;
+      border-radius: 0;
+    }
+  }
+
+  &__input {
+    border: none;
+  }
+}
