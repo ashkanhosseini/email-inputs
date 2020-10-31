@@ -33,6 +33,7 @@ const render = (container, root, focus = true) => {
   if (!root) {
     root = container.parentElement;
   }
+  console.log({ emails: container.state.emails });
   let emailsTmpl = container.state.emails.reduce((tmpl, email) => {
     tmpl += `
       <div class="emails-input__tag ${
@@ -69,22 +70,48 @@ const render = (container, root, focus = true) => {
   // node.replaceChildren(container);
 };
 
+const isEmailsInput = (element) =>
+  element.classList.contains('emails-input__input');
+const getEmailObj = (value) => {
+  const status = isEmailValid(value) ? 'valid' : 'invalid';
+  return { value, status };
+};
+
 const handleKeyPress = (event) => {
   if (
-    event.target.classList.contains('emails-input__input') &&
+    isEmailsInput(event.target) &&
     (event.charCode === 44 || event.charCode === 13)
   ) {
     const input = event.target;
     const container = input.parentElement;
     event.preventDefault();
     const { emails } = container.state;
-    const status = isEmailValid(input.value) ? 'valid' : 'invalid';
-    emails.push({ value: input.value, status });
+    emails.push(getEmailObj(input.value));
     input.value = '';
     render(container);
-    // container.dataset['state'] = emails;
-    // container.insertBefore()
     input.focus();
+  }
+};
+
+const handlePaste = (event) => {
+  const input = event.target;
+  if (isEmailsInput(input)) {
+    const container = input.parentElement;
+    let paste = (event.clipboardData || window.clipboardData).getData('text');
+    if (paste) {
+      console.log({
+        paste,
+        container,
+        res: container.state.emails.concat(
+          paste.split(',').map((val) => val.trim())
+        )
+      });
+      container.state.emails = container.state.emails.concat(
+        paste.split(',').map((val) => getEmailObj(val.trim()))
+      );
+      render(container);
+      event.preventDefault();
+    }
   }
 };
 
@@ -94,6 +121,7 @@ function EmailsInput(root, options) {
   // let emails = [];
   if (!isKeypressAttached) {
     document.addEventListener('keypress', handleKeyPress);
+    document.addEventListener('paste', handlePaste);
     isKeypressAttached = true;
   }
 
