@@ -20,6 +20,12 @@ const getContainer = () => {
   const container = document.createElement('div');
   container.classList.add('emails-input');
   container.state = { emails: [] };
+  container.addEventListener('click', ({ target }) => {
+    if (target.classList.contains('emails-input__remove-tag')) {
+      // normally you would do target.parentElement.remove but it doesn't work in IE.
+      target.parentElement.parentElement.removeChild(target.parentElement);
+    }
+  });
   return container;
 };
 
@@ -48,14 +54,16 @@ function EmailsInput(node, options) {
     isKeypressAttached = true;
   }
 
-  const render = () => {
+  const render = (focus = true) => {
     console.log({ emails: container.state.emails });
     let emailsTmpl = container.state.emails.reduce((tmpl, email) => {
       tmpl += `
         <div class="emails-input__tag ${
           email.status === 'invalid' ? 'emails-input__tag--invalid' : ''
         }">
-          ${email.value}
+        
+          <span>${email.value}</span>
+          <span class="emails-input__remove-tag">x</span>
         </div>
       `;
       return tmpl;
@@ -66,7 +74,9 @@ function EmailsInput(node, options) {
     node.innerHTML = '';
     node.appendChild(container);
     const [input] = container.getElementsByClassName('emails-input__input');
-    input.focus();
+    if (focus) {
+      input.focus();
+    }
     // const elements = container.state.emails.reduce((acc, email) => {
     //   const el = document.createElement('div');
     //   el.classList.add('emails-input__tag');
@@ -82,7 +92,7 @@ function EmailsInput(node, options) {
     // node.replaceChildren(container);
   };
 
-  render();
+  render(false);
   return {
     replaceAll: (emails) => {},
     getEmails: () => {}
