@@ -8,6 +8,8 @@
   flex-wrap: wrap;
   padding: 3px;
   min-height: 37px; // This could probably be calculated by the paddings and margins and etc.
+  max-height: 300px;
+  overflow-x: auto;
 
   &__tag {
     margin: 3px;

@@ -10,7 +10,7 @@ let areGlobalHandlersAttached = false;
 
 const getInput = () => {
   const input = document.createElement('input');
-  input.classList.add('emails-input__input');
+  input.className = 'emails-input__input';
   input.setAttribute('type', 'text');
   input.setAttribute('placeholder', 'add more people...');
   input.onblur = handleBlur;
@@ -18,7 +18,7 @@ const getInput = () => {
 };
 
 const isEmailsInput = (element) =>
-  element.classList.contains('emails-input__input');
+  element.className.includes('emails-input__input');
 
 const getEmailObj = (value) => {
   // I tend to use strings over boolean because it's easier to extend later.
@@ -73,10 +73,10 @@ const handlePaste = (event) => {
 
 const initContainer = (root) => {
   const container = document.createElement('div');
-  container.classList.add('emails-input');
+  container.className = 'emails-input';
   container.state = { emails: [] };
   container.addEventListener('click', ({ target }) => {
-    if (target.classList.contains('emails-input__remove-tag')) {
+    if (target.className.includes('emails-input__remove-tag')) {
       // normally you would do target.parentElement.remove but it doesn't work in IE.
       target.parentElement.parentElement.removeChild(target.parentElement);
     }
@@ -91,10 +91,7 @@ const render = ({ container, input }, newEmails) => {
   container.state.emails = container.state.emails.concat(newEmails);
   newEmails.forEach((email) => {
     const emailContainer = document.createElement('div');
-    emailContainer.classList.add(
-      'emails-input__tag',
-      `emails-input__tag--${email.status}`
-    );
+    emailContainer.className = `emails-input__tag emails-input__tag--${email.status}`;
     emailContainer.innerHTML = `
       <span>${email.value}</span>
       <span class="emails-input__remove-tag">x</span>
