@@ -8,6 +8,69 @@ const isEmailValid = (email) => {
 
 let areGlobalHandlersAttached = false;
 
+const getInput = () => {
+  const input = document.createElement('input');
+  input.classList.add('emails-input__input');
+  input.setAttribute('type', 'text');
+  input.setAttribute('placeholder', 'add more people...');
+  input.onblur = handleBlur;
+  return input;
+};
+
+const isEmailsInput = (element) =>
+  element.classList.contains('emails-input__input');
+
+const getEmailObj = (value) => {
+  // I tend to use strings over boolean because it's easier to extend later.
+  // for instance if we want to later keep track of duplicated emails and style them differently
+  const status = isEmailValid(value) ? 'valid' : 'invalid';
+  return { value, status };
+};
+
+const handleInputValue = (input) => {
+  if (!input.value.trim().replace(/,/g, '')) {
+    return;
+  }
+
+  const container = input.parentElement;
+  render({ container, input }, [getEmailObj(input.value)]);
+  input.value = '';
+};
+
+const handleKeyPress = (event) => {
+  const input = event.target;
+  if (
+    isEmailsInput(input) &&
+    (event.charCode === 44 || event.charCode === 13)
+  ) {
+    event.preventDefault();
+
+    handleInputValue(input);
+  }
+};
+
+const handleBlur = (event) => {
+  const input = event.target;
+  if (isEmailsInput(input)) {
+    handleInputValue(input);
+  }
+};
+
+const handlePaste = (event) => {
+  const input = event.target;
+  if (isEmailsInput(input)) {
+    const container = input.parentElement;
+    let paste = (event.clipboardData || window.clipboardData).getData('text');
+    if (paste) {
+      event.preventDefault();
+      const pastedEmails = paste
+        .split(',')
+        .map((val) => getEmailObj(val.trim()));
+      render({ container, input }, pastedEmails);
+    }
+  }
+};
+
 const initContainer = (root) => {
   const container = document.createElement('div');
   container.classList.add('emails-input');
@@ -18,7 +81,8 @@ const initContainer = (root) => {
       target.parentElement.parentElement.removeChild(target.parentElement);
     }
   });
-  container.innerHTML = `<input type="text" class="emails-input__input" placeholder="add more people..." />`;
+  const input = getInput();
+  container.appendChild(input);
   root.appendChild(container);
   return container;
 };
@@ -39,52 +103,11 @@ const render = ({ container, input }, newEmails) => {
   });
 };
 
-const isEmailsInput = (element) =>
-  element.classList.contains('emails-input__input');
-
-const getEmailObj = (value) => {
-  // I tend to use strings over boolean because it's easier to extend later.
-  // for instance if we want to later keep track of duplicated emails and style them differently
-  const status = isEmailValid(value) ? 'valid' : 'invalid';
-  return { value, status };
-};
-
-const handleKeyPress = (event) => {
-  const input = event.target;
-  if (
-    isEmailsInput(input) &&
-    (event.charCode === 44 || event.charCode === 13)
-  ) {
-    event.preventDefault();
-    if (!input.value.trim().replace(/,/g, '')) {
-      return;
-    }
-
-    const container = input.parentElement;
-    render({ container, input }, [getEmailObj(input.value)]);
-    input.value = '';
-  }
-};
-
-const handlePaste = (event) => {
-  const input = event.target;
-  if (isEmailsInput(input)) {
-    const container = input.parentElement;
-    let paste = (event.clipboardData || window.clipboardData).getData('text');
-    if (paste) {
-      event.preventDefault();
-      const pastedEmails = paste
-        .split(',')
-        .map((val) => getEmailObj(val.trim()));
-      render({ container, input }, pastedEmails);
-    }
-  }
-};
-
 function EmailsInput(root, options) {
   initContainer(root);
   if (!areGlobalHandlersAttached) {
     document.addEventListener('keypress', handleKeyPress);
+    document.addEventListener('blur', handleBlur);
     document.addEventListener('paste', handlePaste);
     areGlobalHandlersAttached = true;
   }
