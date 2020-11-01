@@ -10,6 +10,11 @@ const isEmailValid = (email) => {
   );
 };
 
+export const EMAIL_STATUSES = {
+  VALID: 'valid',
+  INVALID: 'invalid'
+};
+
 let areGlobalHandlersAttached = false;
 
 const getInput = () => {
@@ -27,7 +32,9 @@ const isEmailsInput = (element) =>
 const getEmailObj = (value) => {
   // I tend to use strings over boolean because it's easier to extend later.
   // for instance if we want to later keep track of duplicated emails and style them differently
-  const status = isEmailValid(value) ? 'valid' : 'invalid';
+  const status = isEmailValid(value)
+    ? EMAIL_STATUSES.VALID
+    : EMAIL_STATUSES.INVALID;
   return { value, status };
 };
 
@@ -37,7 +44,7 @@ const handleInputValue = (input) => {
   }
 
   const container = input.parentElement;
-  render({ container, input }, [getEmailObj(input.value)]);
+  render(container, [getEmailObj(input.value)]);
   input.value = '';
 };
 
@@ -70,7 +77,7 @@ const handlePaste = (event) => {
       const pastedEmails = paste
         .split(',')
         .map((val) => getEmailObj(val.trim()));
-      render({ container, input }, pastedEmails);
+      render(container, pastedEmails);
     }
   }
 };
@@ -91,7 +98,7 @@ const initContainer = (root) => {
   return container;
 };
 
-const render = ({ container, input }, newEmails) => {
+const render = (container, newEmails) => {
   container.state.emails = container.state.emails.concat(newEmails);
   container.dispatchEvent(onChangeEvent);
   newEmails.forEach((email) => {
@@ -105,7 +112,10 @@ const render = ({ container, input }, newEmails) => {
         </svg>
       </span>
     `;
-    container.insertBefore(emailContainer, input);
+    container.insertBefore(
+      emailContainer,
+      container.getElementsByClassName('emails-input__input')[0]
+    );
   });
 };
 
@@ -131,16 +141,13 @@ function EmailsInput(root, options = {}) {
       const input = container.getElementsByClassName('emails-input__input')[0];
       container.innerHTML = '';
       container.appendChild(input);
-      emails = emails.map((email) => getEmailObj(email));
-      render(
-        {
-          container,
-          input
-        },
-        emails
-      );
+      emails = emails.map(getEmailObj);
+      render(container, emails);
     },
-    getEmails: () => container.state.emails
+    getState: () => container.state.emails,
+    addEmails: (emails) => {
+      render(container, emails.map(getEmailObj));
+    }
   };
 }
 
