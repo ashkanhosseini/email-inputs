@@ -37,6 +37,10 @@
   &__remove-tag {
     cursor: pointer;
     margin-left: 8px;
+    // Used button for accessibility (make it focusable) and therefore have to unstyle it
+    border: none;
+    background: none;
+    padding: 0;
 
     svg {
       pointer-events: none;
