@@ -50,18 +50,19 @@ const getEmailObj = (value) => {
 };
 
 const handleKeyPress = (event) => {
+  const input = event.target;
   if (
-    isEmailsInput(event.target) &&
+    isEmailsInput(input) &&
     (event.charCode === 44 || event.charCode === 13)
   ) {
     event.preventDefault();
-    const input = event.target;
+    if (!input.value.trim().replace(/,/g, '')) {
+      return;
+    }
+
     const container = input.parentElement;
-    // const { emails } = container.state;
-    // emails.push(getEmailObj(input.value));
     render({ container, input }, [getEmailObj(input.value)]);
     input.value = '';
-    // input.focus();
   }
 };
 
