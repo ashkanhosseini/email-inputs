@@ -9,14 +9,17 @@
   border-radius: 4px;
   display: flex;
   flex-wrap: wrap;
-  padding: 3px;
+  padding: 4px 3px;
   min-height: 37px; // This could probably be calculated by the paddings and margins and etc.
   max-height: 300px;
   overflow-x: auto;
 
   &__tag {
     margin: 2px 4px;
-    padding: 6px;
+    line-height: 24px;
+
+
+    
 
     &--invalid {
       background: transparent;
@@ -26,11 +29,18 @@
     &--valid {
       background: rgba(102, 153, 255, 0.2);
       border-radius: 100px;
+      padding-left: 10px;
+      padding-right: 8px;
     }
   }
 
   &__remove-tag {
     cursor: pointer;
+    margin-left: 8px;
+
+    svg {
+      pointer-events: none;
+    }
   }
 
   &__input {

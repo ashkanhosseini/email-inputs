@@ -1,4 +1,4 @@
-import './styles.css';
+import './styles.scss';
 
 import EmailsInput from './emails-input';
 const input = EmailsInput(document.getElementById('root'), {
