@@ -1,5 +1,9 @@
 import './emails-input.scss';
 
+// useing the CustomEvent constructor is not working in IE11. We could polyfill it
+const onChangeEvent = document.createEvent('CustomEvent');
+onChangeEvent.initEvent('emailsInput.change', true, false);
+
 const isEmailValid = (email) => {
   return /^(\s?[^\s,]+@[^\s,]+\.[^\s,]+\s?,)*(\s?[^\s,]+@[^\s,]+\.[^\s,]+)$/.test(
     email
@@ -89,6 +93,7 @@ const initContainer = (root) => {
 
 const render = ({ container, input }, newEmails) => {
   container.state.emails = container.state.emails.concat(newEmails);
+  container.dispatchEvent(onChangeEvent);
   newEmails.forEach((email) => {
     const emailContainer = document.createElement('div');
     emailContainer.className = `emails-input__tag emails-input__tag--${email.status}`;
@@ -100,8 +105,14 @@ const render = ({ container, input }, newEmails) => {
   });
 };
 
-function EmailsInput(root, options) {
-  initContainer(root);
+function EmailsInput(root, options = {}) {
+  const container = initContainer(root);
+  if (options.onChange) {
+    container.addEventListener('emailsInput.change', (event) => {
+      options.onChange(event, container.state.emails);
+    });
+  }
+
   if (!areGlobalHandlersAttached) {
     document.addEventListener('keypress', handleKeyPress);
     document.addEventListener('blur', handleBlur);
