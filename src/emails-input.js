@@ -120,10 +120,23 @@ function EmailsInput(root, options = {}) {
     areGlobalHandlersAttached = true;
   }
 
-  // render(container, root, false);
   return {
-    replaceAll: (emails) => {},
-    getEmails: () => {}
+    replaceAll: (emails = []) => {
+      // Maybe put emails in their own container ? 🤔
+      container.state.emails = [];
+      const input = container.getElementsByClassName('emails-input__input')[0];
+      container.innerHTML = '';
+      container.appendChild(input);
+      emails = emails.map((email) => getEmailObj(email));
+      render(
+        {
+          container,
+          input
+        },
+        emails
+      );
+    },
+    getEmails: () => container.state.emails
   };
 }
 
