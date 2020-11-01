@@ -1,5 +1,8 @@
 
+// You usually have the sizes and colors and etc. in the variables coming from
+// the design systems rather than randomly typing them in css;
 .emails-input {
+  font-size: 14px;
   background: #ffffff;
   border: 1px solid #c3c2cf;
   box-sizing: border-box;
@@ -12,15 +15,17 @@
   overflow-x: auto;
 
   &__tag {
-    margin: 3px;
-    background: rgba(102, 153, 255, 0.2);
-    border-radius: 100px;
+    margin: 2px 4px;
     padding: 6px;
 
     &--invalid {
       background: transparent;
-      border-bottom: dotted 1px red;
+      border-bottom: dashed 1px red;
       border-radius: 0;
+    }
+    &--valid {
+      background: rgba(102, 153, 255, 0.2);
+      border-radius: 100px;
     }
   }
 
