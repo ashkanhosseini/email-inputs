@@ -37,21 +37,14 @@ const render = ({ container, input }, newEmails) => {
     `;
     container.insertBefore(emailContainer, input);
   });
-
-  // emailsTmpl += `<input type="text" class="emails-input__input" placeholder="add more people..." />`;
-  // container.innerHTML = emailsTmpl;
-  // root.innerHTML = '';
-  // root.appendChild(container);
-  // const [input] = container.getElementsByClassName('emails-input__input');
-  // if (focus) {
-  //   input.focus();
-  // }
 };
 
 const isEmailsInput = (element) =>
   element.classList.contains('emails-input__input');
 
 const getEmailObj = (value) => {
+  // I tend to use strings over boolean because it's easier to extend later.
+  // for instance if we want to later keep track of duplicated emails and style them differently
   const status = isEmailValid(value) ? 'valid' : 'invalid';
   return { value, status };
 };
