@@ -18,9 +18,6 @@
     margin: 2px 4px;
     line-height: 24px;
 
-
-    
-
     &--invalid {
       background: transparent;
       border-bottom: dashed 1px red;
@@ -48,6 +45,8 @@
   }
 
   &__input {
+    margin: 2px 4px;
+    line-height: 24px;
     border: none;
   }
 }
