@@ -54,6 +54,32 @@ describe('EmailsInput', () => {
     });
   });
 
+  it(`should create an email block when input looses focus`, () => {
+    const { container } = render();
+    const input = getByPlaceholderText(container, /add more people/i);
+    const invalidEmail = 'blahblah';
+    const validEmail = 'validemail@gmail.com';
+    expect(input).toBeVisible();
+
+    userEvent.type(input, invalidEmail);
+    userEvent.tab();
+    expect(input.value).toBe('');
+    expect(getByText(container, invalidEmail));
+
+    userEvent.type(input, validEmail);
+    userEvent.tab();
+    expect(input.value).toBe('');
+    expect(getByText(container, validEmail));
+
+    expect(container.querySelectorAll('.emails-input__tag')).toHaveLength(2);
+    expect(
+      container.querySelectorAll('.emails-input__tag--invalid')
+    ).toHaveLength(1);
+    expect(
+      container.querySelectorAll('.emails-input__tag--valid')
+    ).toHaveLength(1);
+  });
+
   it('should be able to remove email blocks', () => {
     const { container, emailsInput } = render();
     const emails = ['valid@gmail.com', 'whatsup', 'amIvalid@somewhere.com'];
