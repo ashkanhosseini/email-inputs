@@ -7,7 +7,12 @@
     "start": "parcel index.html --open",
     "build": "parcel build index.html"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@testing-library/dom": "7.26.3",
+    "@testing-library/jest-dom": "5.11.5",
+    "@testing-library/user-event": "12.1.10",
+    "jest-dom": "4.0.0"
+  },
   "devDependencies": {
     "@babel/core": "7.2.0",
     "parcel-bundler": "^1.6.1"
