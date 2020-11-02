@@ -53,4 +53,31 @@ describe('EmailsInput', () => {
       ).toHaveLength(1);
     });
   });
+
+  it('should be able to remove email blocks', () => {
+    const { container, emailsInput } = render();
+    const emails = ['valid@gmail.com', 'whatsup', 'amIvalid@somewhere.com'];
+    emailsInput.addEmails(emails);
+
+    expect(container.querySelectorAll('.emails-input__tag')).toHaveLength(3);
+    expect(
+      container.querySelectorAll('.emails-input__tag--invalid')
+    ).toHaveLength(1);
+    expect(
+      container.querySelectorAll('.emails-input__tag--valid')
+    ).toHaveLength(2);
+
+    emails.forEach((email) => {
+      const removeButton = getByLabelText(container, `remove ${email}`);
+      userEvent.click(removeButton);
+      expect(removeButton).not.toBeInTheDocument();
+    });
+    expect(container.querySelectorAll('.emails-input__tag')).toHaveLength(0);
+    expect(
+      container.querySelectorAll('.emails-input__tag--invalid')
+    ).toHaveLength(0);
+    expect(
+      container.querySelectorAll('.emails-input__tag--valid')
+    ).toHaveLength(0);
+  });
 });
