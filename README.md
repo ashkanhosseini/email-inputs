@@ -104,7 +104,7 @@ Returns an array of objects which is the current state of the component with ent
 ```js
 const emailsInput = EmailsInput(document.getElementById('dummy'));
 emailsInput.replaceAll(['john@gmail.com']);
-emailsInput.getState(); // {id: 21323, value: 'john@gmail.com', status: 'valied'}
+emailsInput.getState(); // {id: 21323, value: 'john@gmail.com', status: 'valid'}
 ```
 
 #### addEmails
