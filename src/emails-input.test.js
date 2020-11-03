@@ -119,6 +119,7 @@ describe('EmailsInput', () => {
     expect(
       container.querySelectorAll('.emails-input__tag--valid')
     ).toHaveLength(0);
+    expect(emailsInput.getState().length).toBe(0);
   });
 
   describe('public API', () => {
@@ -130,15 +131,19 @@ describe('EmailsInput', () => {
       userEvent.type(input, 'ashkan@gmail.com{enter}');
       expect(onChange).toHaveBeenCalledWith(
         expect.objectContaining({ type: 'emailsInput.change' }),
-        [{ status: 'valid', value: 'ashkan@gmail.com' }]
+        [{ status: 'valid', value: 'ashkan@gmail.com', id: expect.any(Number) }]
       );
 
       userEvent.type(input, 'invalid-email{enter}');
       expect(onChange).toHaveBeenCalledWith(
         expect.objectContaining({ type: 'emailsInput.change' }),
         [
-          { status: 'valid', value: 'ashkan@gmail.com' },
-          { status: 'invalid', value: 'invalid-email' },
+          {
+            id: expect.any(Number),
+            status: 'valid',
+            value: 'ashkan@gmail.com',
+          },
+          { status: 'invalid', value: 'invalid-email', id: expect.any(Number) },
         ]
       );
       expect(onChange).toHaveBeenCalledTimes(2);
@@ -175,9 +180,13 @@ describe('EmailsInput', () => {
       });
 
       expect(emailsInput.getState()).toEqual([
-        { value: 'pineapple@pizze.com', status: 'valid' },
-        { value: 'or', status: 'invalid' },
-        { value: 'thisIsNotaPizza', status: 'invalid' },
+        {
+          value: 'pineapple@pizze.com',
+          status: 'valid',
+          id: expect.any(Number),
+        },
+        { value: 'or', status: 'invalid', id: expect.any(Number) },
+        { value: 'thisIsNotaPizza', status: 'invalid', id: expect.any(Number) },
       ]);
     });
   });

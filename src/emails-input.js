@@ -35,7 +35,7 @@ const getEmailObj = (value) => {
   const status = isEmailValid(value)
     ? EMAIL_STATUSES.VALID
     : EMAIL_STATUSES.INVALID;
-  return { value, status };
+  return { value, status, id: Date.now() };
 };
 
 const handleInputValue = (input) => {
@@ -88,6 +88,10 @@ const initContainer = (root) => {
   container.state = { emails: [] };
   container.addEventListener('click', ({ target }) => {
     if (target.className.indexOf('emails-input__remove-tag') > -1) {
+      const emailId = target.getAttribute('data-email-id');
+      container.state.emails = container.state.emails.filter(
+        ({ id }) => emailId != id
+      );
       // normally you would do target.parentElement.remove but it doesn't work in IE.
       target.parentElement.parentElement.removeChild(target.parentElement);
     }
@@ -105,8 +109,8 @@ const render = (container, newEmails) => {
     const emailContainer = document.createElement('div');
     emailContainer.className = `emails-input__tag emails-input__tag--${email.status}`;
     emailContainer.innerHTML = `
-      <span>${email.value}</span>
-      <button class="emails-input__remove-tag" aria-label="remove ${email.value}">
+      <span class="emails-input__email">${email.value}</span>
+      <button class="emails-input__remove-tag" data-email-id="${email.id}" aria-label="remove ${email.value}">
         <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0.8L7.2 0L4 3.2L0.8 0L0 0.8L3.2 4L0 7.2L0.8 8L4 4.8L7.2 8L8 7.2L4.8 4L8 0.8Z" fill="#050038"/>
         </svg>

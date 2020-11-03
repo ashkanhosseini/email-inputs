@@ -6,7 +6,8 @@
   "scripts": {
     "start": "parcel index.html --open",
     "build": "parcel build index.html",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@testing-library/dom": "7.26.3",
