@@ -8,6 +8,11 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Tests](#tests)
+- [Usage](#usage)
+- [Public API](#public-api)
+  - [replaceAll](#replaceAll)
+  - [getState](#getState)
+  - [addEmails](#addEmails)
 
 <!-- ABOUT THE PROJECT -->
 
@@ -61,6 +66,52 @@ npm start
 
 ```sh
 npm run test
+```
+
+### Usage
+
+The EmailsInput accepts two parameters:
+
+1. element: The element to initialize the Emails Input
+2. options: as of now there is only one option which is `onChange` method
+
+`onChange`: receives two parameters:
+
+1. event: the event which is a custom event of type `emailsInput.change`
+2. value: an array of objects with selected emails. Example:
+
+```js
+{id: Number, value: String, status: String}
+```
+
+### Public API
+
+#### replaceAll
+
+Accepts an array of strings and replaces all the entered emails with the new ones:
+
+```js
+const emailsInput = EmailsInput(document.getElementById('dummy'));
+emailsInput.replaceAll(['john@gmail.com']);
+```
+
+#### getState
+
+Returns an array of objects which is the current state of the component with entered emails
+
+```js
+const emailsInput = EmailsInput(document.getElementById('dummy'));
+emailsInput.replaceAll(['john@gmail.com']);
+emailsInput.getState(); // {id: 21323, value: 'john@gmail.com', status: 'valied'}
+```
+
+#### addEmails
+
+Accepts an array of strings and appends the list to the entered emails
+
+```js
+const emailsInput = EmailsInput(document.getElementById('dummy'));
+emailsInput.addEmails(['john@gmail.com']);
 ```
 
 [screenshot]: image.png
