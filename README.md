@@ -13,7 +13,8 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][image]](https://ashkanhosseini.github.io/email-inputs/)
+[![Screen Shot][screenshot]](https://ashkanhosseini.github.io/email-inputs/)
+
 A vanilla js emails input component
 
 ### Built With
@@ -61,3 +62,5 @@ npm start
 ```sh
 npm run test
 ```
+
+[screenshot]: image.png
