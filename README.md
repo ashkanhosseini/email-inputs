@@ -18,6 +18,8 @@
 
 ## About The Project
 
+Demo: https://ashkanhosseini.github.io/email-inputs/
+
 [![Screen Shot][screenshot]](https://ashkanhosseini.github.io/email-inputs/)
 
 A vanilla js emails input component
