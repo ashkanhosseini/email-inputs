@@ -12,7 +12,7 @@ const isEmailValid = (email) => {
 
 export const EMAIL_STATUSES = {
   VALID: 'valid',
-  INVALID: 'invalid'
+  INVALID: 'invalid',
 };
 
 let areGlobalHandlersAttached = false;
@@ -27,7 +27,7 @@ const getInput = () => {
 };
 
 const isEmailsInput = (element) =>
-  element.className.includes('emails-input__input');
+  element.className.indexOf('emails-input__input') > -1;
 
 const getEmailObj = (value) => {
   // I tend to use strings over boolean because it's easier to extend later.
@@ -87,7 +87,7 @@ const initContainer = (root) => {
   container.className = 'emails-input';
   container.state = { emails: [] };
   container.addEventListener('click', ({ target }) => {
-    if (target.className.includes('emails-input__remove-tag')) {
+    if (target.className.indexOf('emails-input__remove-tag') > -1) {
       // normally you would do target.parentElement.remove but it doesn't work in IE.
       target.parentElement.parentElement.removeChild(target.parentElement);
     }
@@ -147,7 +147,7 @@ function EmailsInput(root, options = {}) {
     getState: () => container.state.emails,
     addEmails: (emails) => {
       render(container, emails.map(getEmailObj));
-    }
+    },
   };
 }
 
