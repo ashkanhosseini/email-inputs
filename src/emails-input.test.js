@@ -2,7 +2,7 @@ import {
   getByLabelText,
   getByText,
   queryByText,
-  getByPlaceholderText
+  getByPlaceholderText,
 } from '@testing-library/dom';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
@@ -68,18 +68,31 @@ describe('EmailsInput', () => {
     ).toHaveLength(1);
   });
 
-  // ! need to investigate, probably a bug in user-events that doesn't take preventDefault into account
-  // it('should convert pasted text into email blocks', async () => {
-  //   const emails = ['valid@gmail.com', 'whatsup', 'amIvalid@somewhere.com'];
-  //   const textToPaste = emails.join(', ');
+  it('should convert pasted text into email blocks', async () => {
+    const emails = ['valid@gmail.com', 'whatsup'];
+    const textToPaste = emails.join(', ');
 
-  //   const { container, emailsInput } = render();
-  //   const input = getByPlaceholderText(container, /add more people/i);
-  //   userEvent.paste(input, textToPaste, {
-  //     clipboardData: { getData: () => textToPaste }
-  //   });
-  //   await waitFor(() => expect(input.value).toBe(''));
-  // });
+    const { container, emailsInput } = render();
+    const input = getByPlaceholderText(container, /add more people/i);
+    userEvent.paste(input, textToPaste, {
+      clipboardData: { getData: () => textToPaste },
+    });
+
+    // ! need to investigate, probably a bug in user-events that doesn't take preventDefault into account
+    // await waitFor(() => expect(input.value).toBe(''));
+
+    emails.forEach((email) => {
+      expect(getByText(container, email));
+    });
+
+    expect(container.querySelectorAll('.emails-input__tag')).toHaveLength(2);
+    expect(
+      container.querySelectorAll('.emails-input__tag--invalid')
+    ).toHaveLength(1);
+    expect(
+      container.querySelectorAll('.emails-input__tag--valid')
+    ).toHaveLength(1);
+  });
 
   it('should be able to remove email blocks', () => {
     const { container, emailsInput } = render();
@@ -125,7 +138,7 @@ describe('EmailsInput', () => {
         expect.objectContaining({ type: 'emailsInput.change' }),
         [
           { status: 'valid', value: 'ashkan@gmail.com' },
-          { status: 'invalid', value: 'invalid-email' }
+          { status: 'invalid', value: 'invalid-email' },
         ]
       );
       expect(onChange).toHaveBeenCalledTimes(2);
@@ -164,7 +177,7 @@ describe('EmailsInput', () => {
       expect(emailsInput.getState()).toEqual([
         { value: 'pineapple@pizze.com', status: 'valid' },
         { value: 'or', status: 'invalid' },
-        { value: 'thisIsNotaPizza', status: 'invalid' }
+        { value: 'thisIsNotaPizza', status: 'invalid' },
       ]);
     });
   });
