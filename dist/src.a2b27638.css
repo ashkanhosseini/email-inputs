@@ -1,0 +1,91 @@
+body {
+  font-family: "Open Sans", sans-serif;
+}
+
+.board-share {
+  width: 540px;
+  margin: auto;
+  margin-top: 300px;
+  background: #FFFFFF;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+.board-share__title {
+  font-size: 20px;
+  line-height: 27px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #050038;
+  margin-bottom: 24px;
+}
+.board-share__title--bold {
+  font-weight: 700;
+}
+.board-share__button {
+  background: #4262FF;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  color: #FFFFFF;
+  border: none;
+}
+.board-share__info {
+  background: #F8F8F7;
+  border-radius: 8px 8px 0px 0px;
+  padding: 32px 50px 24px 50px;
+}
+.board-share__actions {
+  padding: 24px 50px 32px 50px;
+}
+.board-share__actions button + button {
+  margin-left: 16px;
+}
+.emails-input {
+  font-size: 14px;
+  background: #ffffff;
+  border: 1px solid #c3c2cf;
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: flex;
+  align-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 4px 3px;
+  height: 96px;
+  overflow-x: auto;
+}
+.emails-input__tag {
+  margin: 2px 4px;
+  line-height: 24px;
+}
+.emails-input__tag--invalid {
+  background: transparent;
+  border-bottom: dashed 1px red;
+  border-radius: 0;
+}
+.emails-input__tag--valid {
+  background: rgba(102, 153, 255, 0.2);
+  border-radius: 100px;
+  padding-left: 10px;
+  padding-right: 8px;
+}
+.emails-input__remove-tag {
+  cursor: pointer;
+  margin-left: 8px;
+  border: none;
+  background: none;
+  padding: 0;
+}
+.emails-input__remove-tag svg {
+  pointer-events: none;
+}
+.emails-input__input {
+  margin: 2px 4px;
+  line-height: 24px;
+  height: 26px;
+  border: none;
+}
+
+/*# sourceMappingURL=/src.a2b27638.css.map */

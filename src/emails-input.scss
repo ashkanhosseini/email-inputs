@@ -8,6 +8,7 @@
   border-radius: 4px;
   display: flex;
   align-content: flex-start;
+  align-items: flex-start; // IE11 is stretched without this
   flex-wrap: wrap;
   padding: 4px 3px;
   height: 96px;
@@ -46,6 +47,7 @@
   &__input {
     margin: 2px 4px;
     line-height: 24px;
+    height: 26px;
     border: none;
   }
 }
